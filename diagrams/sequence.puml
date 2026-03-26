@@ -1,0 +1,40 @@
+@startuml
+actor "Специалист\nпо безопасности" as User
+participant "DeviceController" as Controller
+participant "WiFiScanner" as Scanner
+participant "NetworkInterface" as NetInt
+participant "AttackExecutor" as Attack
+participant "ReportGenerator" as Report
+
+User -> Controller: 1. Запуск режима аудита
+activate Controller
+
+Controller -> Scanner: 2. scan_networks()
+activate Scanner
+Scanner -> NetInt: 3. set_monitor_mode()
+NetInt --> Scanner: 4. monitor mode active
+Scanner -> NetInt: 5. capture_packets(30)
+NetInt --> Scanner: 6. packet data
+Scanner --> Controller: 7. список сетей
+deactivate Scanner
+
+Controller --> User: 8. отображение сетей
+
+User -> Controller: 9. выбор цели для атаки
+Controller -> Attack: 10. deauth_attack(mac, count=50)
+activate Attack
+
+Attack -> NetInt: 11. send_deauth_packets()
+NetInt --> Attack: 12. packets sent
+Attack --> Controller: 13. атака выполнена
+deactivate Attack
+
+Controller -> Report: 14. add_event("deauth", details)
+activate Report
+Report -> Report: 15. запись в лог
+Report --> Controller: 16. лог обновлен
+deactivate Report
+
+Controller --> User: 17. результат атаки
+deactivate Controller
+@enduml
