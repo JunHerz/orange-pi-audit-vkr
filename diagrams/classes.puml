@@ -1,0 +1,69 @@
+@startuml
+class WiFiScanner {
+  - interface: str
+  - channel: int
+  - networks: list
+  --
+  + __init__(interface: str)
+  + scan_networks(): list
+  + capture_packets(duration: int): void
+  + parse_results(): dict
+  - _set_monitor_mode(): bool
+}
+
+class AttackExecutor {
+  - target_mac: str
+  - interface: str
+  - attack_type: str
+  --
+  + __init__(interface: str)
+  + deauth_attack(target_mac: str, count: int): bool
+  + fake_ap(ssid: str, channel: int): void
+  + stop_attack(): void
+  - _check_permissions(): bool
+}
+
+class ReportGenerator {
+  - log_file: str
+  - report_path: str
+  - audit_data: list
+  --
+  + __init__(log_path: str)
+  + add_event(event_type: str, details: str): void
+  + export_pdf(): str
+  + export_txt(): str
+  + get_audit_summary(): dict
+  - _format_report(): str
+}
+
+class DeviceController {
+  - gpio_pin: int
+  - battery_level: float
+  - system_status: str
+  --
+  + __init__()
+  + check_power(): float
+  + led_control(state: bool): void
+  + reboot_system(): void
+  + shutdown(): void
+  - _read_sensors(): dict
+}
+
+class NetworkInterface {
+  - name: str
+  - mac: str
+  - ip: str
+  - is_monitor: bool
+  --
+  + set_monitor_mode(): bool
+  + set_managed_mode(): bool
+  + get_info(): dict
+}
+
+WiFiScanner --> NetworkInterface : uses
+AttackExecutor --> NetworkInterface : uses
+WiFiScanner --> ReportGenerator : sends data
+AttackExecutor --> ReportGenerator : sends data
+DeviceController --> WiFiScanner : controls
+DeviceController --> AttackExecutor : controls
+@enduml
