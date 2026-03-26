@@ -1,0 +1,32 @@
+@startuml
+left to right direction
+actor "Специалист\nпо безопасности" as User
+actor "Руководитель\nВКР" as Supervisor
+actor "Устройство\n(Orange Pi Zero 2W)" as Device
+
+rectangle "Портативная платформа аудита беспроводных устройств" {
+  
+  usecase "Сканировать Wi-Fi сети" as UC1
+  usecase "Выполнить атаку deauth" as UC2
+  usecase "Сформировать отчет об аудите" as UC3
+  usecase "Просмотреть журнал аудита" as UC4
+  usecase "Управлять питанием устройства" as UC5
+  usecase "Обновить базу утилит" as UC6
+  usecase "Контролировать прогресс ВКР" as UC7
+  
+  User --> UC1
+  User --> UC2
+  User --> UC3
+  User --> UC4
+  User --> UC5
+  User --> UC6
+  
+  Device --> UC1 : <<extends>>
+  Device --> UC2 : <<extends>>
+  
+  Supervisor --> UC7
+}
+
+note right of UC2 : Требуется указать\nMAC-адрес цели
+note left of UC3 : Формат: PDF, TXT
+@enduml
