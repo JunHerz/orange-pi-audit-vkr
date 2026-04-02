@@ -94,7 +94,7 @@
 ## 4. Ссылки и размещение
 
 Все материалы размещены в репозитории GitHub:
-[ССЫЛКА НА РЕПОЗИТОРИЙ]
+[https://github.com/JunHerz/orange-pi-audit-vkr/tree/main]
 
 Структура репозитория:
 orange-pi-audit-vkr/
